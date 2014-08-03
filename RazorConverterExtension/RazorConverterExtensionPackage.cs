@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using EnvDTE;
@@ -97,11 +98,23 @@ namespace OlympicSoftware.RazorConverterExtension
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-
-
             var projectItem = GetSelectedProjectItem();
-            Debug.WriteLine(projectItem.Name);
-            Debug.WriteLine(projectItem.ContainingProject);
+
+            RazorConverter razorConverter = new RazorConverter();
+            var razor = razorConverter.ConvertAspx(projectItem.FileNames[0]);
+
+            var querySave2 = GetGlobalService(typeof(SVsQueryEditQuerySave)) as IVsQueryEditQuerySave2;
+            uint verdict;
+            uint moreInfo;
+            querySave2.QueryEditFiles((uint) tagVSQueryEditFlags.QEF_SilentMode, 1, new[] {projectItem.FileNames[0]}, null,
+                null, out verdict, out moreInfo);
+
+
+            File.WriteAllText(projectItem.FileNames[0], razor);
+
+            var window = projectItem.Open();
+            window.Activate();
+
         }
 
 
@@ -138,6 +151,7 @@ namespace OlympicSoftware.RazorConverterExtension
             var selectedProject = selectedObject as ProjectItem;
             return selectedProject;
         }
+
 
     }
 }
