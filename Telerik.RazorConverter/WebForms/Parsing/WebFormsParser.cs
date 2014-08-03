@@ -58,6 +58,10 @@
             NodeFilterProvider = postprocessingFilterProvider;
         }
 
+        public WebFormsParser()
+        {
+        }
+
         public IDocument<IWebFormsNode> Parse(string input)
         {
             Match match;

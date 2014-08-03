@@ -1,0 +1,56 @@
+﻿@model Mike.RazorConverter.Web.Models.ConverterModel
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Web Razor Converter</title>
+        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        
+        
+        <style type="text/css">
+            body { padding: 10px; }
+
+            textarea, input { margin-top: 10px; }
+
+
+            .output {
+                margin-top: 10px;
+                border: 1px black inset;
+                font-family: monospace;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>Web Razor Converter</h2>
+            <div class="form-group">
+                @using (Html.BeginForm("Index", "Converter", FormMethod.Post))
+                {
+                    @Html.TextAreaFor(model => model.Input, new {@class = "form-control"})
+
+                    
+
+                    <input type="submit" value="Convert!" class="btn btn-primary" />
+                }
+                
+                <div class="output">
+                    @Model.Output
+                </div>
+
+            </div>
+        </div>
+    </body>
+
+
+
+</html>
