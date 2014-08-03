@@ -106,7 +106,7 @@ namespace OlympicSoftware.RazorConverterExtension
             var querySave2 = GetGlobalService(typeof(SVsQueryEditQuerySave)) as IVsQueryEditQuerySave2;
             uint verdict;
             uint moreInfo;
-            querySave2.QueryEditFiles((uint) tagVSQueryEditFlags.QEF_AllowInMemoryEdits, 1, new[] {projectItem.FileNames[0]}, null,
+            querySave2.QueryEditFiles((uint) tagVSQueryEditFlags.QEF_SilentMode, 1, new[] {projectItem.FileNames[0]}, null,
                 null, out verdict, out moreInfo);
 
 
