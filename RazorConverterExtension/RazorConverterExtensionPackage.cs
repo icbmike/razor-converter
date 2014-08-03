@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
+using EnvDTE;
 using Microsoft.Win32;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -79,39 +80,13 @@ namespace OlympicSoftware.RazorConverterExtension
         private void QueryStatus(object sender, EventArgs eventArgs)
         {
             OleMenuCommand menuCommand = sender as OleMenuCommand;
-            var targetFile = GetTargetFile(menuCommand);
+            var targetFile = GetSelectedProjectItem();
 
             menuCommand.Visible = (targetFile != null &&
-                                   (targetFile.ToString().EndsWith(".aspx") || targetFile.ToString().EndsWith(".ascx")));
+                                   (targetFile.Name.EndsWith(".aspx") || targetFile.Name.EndsWith(".ascx")));
 
         }
 
-        private static object GetTargetFile(OleMenuCommand menuCommand)
-        {
-            object value = null;
-            if (menuCommand != null)
-            {
-                IntPtr hierarchyPtr, selectionContainerPtr;
-                uint projectItemId;
-                IVsMultiItemSelect mis;
-                IVsMonitorSelection monitorSelection =
-                    (IVsMonitorSelection) GetGlobalService(typeof (SVsShellMonitorSelection));
-
-                monitorSelection.GetCurrentSelection(out hierarchyPtr, out projectItemId, out mis,
-                    out selectionContainerPtr);
-
-                IVsHierarchy hierarchy =
-                    Marshal.GetTypedObjectForIUnknown(hierarchyPtr, typeof (IVsHierarchy)) as IVsHierarchy;
-
-                if (hierarchy != null)
-                {
-                    hierarchy.GetProperty(projectItemId, (int) __VSHPROPID.VSHPROPID_Name, out value);
-
-                    
-                }
-            }
-            return value;
-        }
 
         #endregion
 
@@ -122,8 +97,47 @@ namespace OlympicSoftware.RazorConverterExtension
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var targetFile = GetTargetFile(sender as OleMenuCommand);
-            Debug.WriteLine(targetFile.GetType());
+
+
+            var projectItem = GetSelectedProjectItem();
+            Debug.WriteLine(projectItem.Name);
+            Debug.WriteLine(projectItem.ContainingProject);
         }
+
+
+        private ProjectItem GetSelectedProjectItem()
+        {
+            IntPtr hierarchyPointer, selectionContainerPointer;
+            Object selectedObject = null;
+            IVsMultiItemSelect multiItemSelect;
+            uint projectItemId;
+
+            IVsMonitorSelection monitorSelection =
+                    (IVsMonitorSelection)Package.GetGlobalService(
+                    typeof(SVsShellMonitorSelection));
+
+            monitorSelection.GetCurrentSelection(out hierarchyPointer,
+                                                 out projectItemId,
+                                                 out multiItemSelect,
+                                                 out selectionContainerPointer);
+
+            IVsHierarchy selectedHierarchy = Marshal.GetTypedObjectForIUnknown(
+                                                 hierarchyPointer,
+                                                 typeof(IVsHierarchy)) as IVsHierarchy;
+
+
+            
+            if (selectedHierarchy != null)
+            {
+                ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(
+                                                  projectItemId,
+                                                  (int)__VSHPROPID.VSHPROPID_ExtObject,
+                                                  out selectedObject));
+            }
+
+            var selectedProject = selectedObject as ProjectItem;
+            return selectedProject;
+        }
+
     }
 }
