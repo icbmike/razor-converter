@@ -79,6 +79,16 @@ namespace OlympicSoftware.RazorConverterExtension
         private void QueryStatus(object sender, EventArgs eventArgs)
         {
             OleMenuCommand menuCommand = sender as OleMenuCommand;
+            var targetFile = GetTargetFile(menuCommand);
+
+            menuCommand.Visible = (targetFile != null &&
+                                   (targetFile.ToString().EndsWith(".aspx") || targetFile.ToString().EndsWith(".ascx")));
+
+        }
+
+        private static object GetTargetFile(OleMenuCommand menuCommand)
+        {
+            object value = null;
             if (menuCommand != null)
             {
                 IntPtr hierarchyPtr, selectionContainerPtr;
@@ -95,19 +105,12 @@ namespace OlympicSoftware.RazorConverterExtension
 
                 if (hierarchy != null)
                 {
-                    object value;
                     hierarchy.GetProperty(projectItemId, (int) __VSHPROPID.VSHPROPID_Name, out value);
 
-                    if (value != null && (value.ToString().EndsWith(".aspx") || value.ToString().EndsWith(".ascx")))
-                    {
-                        menuCommand.Visible = true;
-                    }
-                    else
-                    {
-                        menuCommand.Visible = false;
-                    }
+                    
                 }
             }
+            return value;
         }
 
         #endregion
@@ -119,33 +122,8 @@ namespace OlympicSoftware.RazorConverterExtension
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            OleMenuCmdEventArgs oleEa = e as OleMenuCmdEventArgs;
-
-            if (oleEa != null)
-            {
-                Debug.WriteLine(oleEa.InValue);
-                Debug.WriteLine(oleEa.Options);
-                Debug.WriteLine(oleEa.OutValue);
-            }
-
-
-            // Show a Message Box to prove we were here
-            IVsUIShell uiShell = (IVsUIShell) GetService(typeof (SVsUIShell));
-            Guid clsid = Guid.Empty;
-            int result;
-            ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
-                0,
-                ref clsid,
-                "RazorConverterExtension",
-                string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback() {1}", this.ToString(),
-                    e.GetType().ToString()),
-                string.Empty,
-                0,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-                OLEMSGICON.OLEMSGICON_INFO,
-                0, // false
-                out result));
+            var targetFile = GetTargetFile(sender as OleMenuCommand);
+            Debug.WriteLine(targetFile.GetType());
         }
     }
 }
