@@ -110,11 +110,9 @@ namespace OlympicSoftware.RazorConverterExtension
                 null, out verdict, out moreInfo);
 
 
-            File.WriteAllText(projectItem.FileNames[0], razor);
-
             var window = projectItem.Open();
             window.Activate();
-
+            File.WriteAllText(projectItem.FileNames[0], razor);
         }
 
 
