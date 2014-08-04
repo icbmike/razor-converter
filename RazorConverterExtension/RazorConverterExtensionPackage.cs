@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using EnvDTE;
@@ -98,18 +97,8 @@ namespace OlympicSoftware.RazorConverterExtension
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var projectItem = GetSelectedProjectItem();
 
-            RazorConverter razorConverter = new RazorConverter();
-            var razor = razorConverter.ConvertAspx(projectItem.FileNames[0]);
-
-            var querySave2 = GetGlobalService(typeof(SVsQueryEditQuerySave)) as IVsQueryEditQuerySave2;
-            uint verdict;
-            uint moreInfo;
-            querySave2.QueryEditFiles((uint) tagVSQueryEditFlags.QEF_SilentMode, 1, new[] {projectItem.FileNames[0]}, null,
-                null, out verdict, out moreInfo);
-
-
+<<<<<<< HEAD
             var window = projectItem.Open();
             window.Activate();
 
@@ -120,6 +109,12 @@ namespace OlympicSoftware.RazorConverterExtension
             textSelection.Text = razor;
 
 
+=======
+
+            var projectItem = GetSelectedProjectItem();
+            Debug.WriteLine(projectItem.Name);
+            Debug.WriteLine(projectItem.ContainingProject);
+>>>>>>> parent of 327ccc3... well crap
         }
 
 
@@ -156,7 +151,6 @@ namespace OlympicSoftware.RazorConverterExtension
             var selectedProject = selectedObject as ProjectItem;
             return selectedProject;
         }
-
 
     }
 }
