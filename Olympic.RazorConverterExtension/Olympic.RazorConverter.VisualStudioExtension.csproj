@@ -164,9 +164,9 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Telerik.RazorConverter\Telerik.RazorConverter.csproj">
-      <Project>{88630458-D5BE-43B0-A7FB-BC0DFE6CB62E}</Project>
-      <Name>Telerik.RazorConverter</Name>
+    <ProjectReference Include="..\Olympic.RazorConverter\Olympic.RazorConverter.csproj">
+      <Project>{88630458-d5be-43b0-a7fb-bc0dfe6cb62e}</Project>
+      <Name>Olympic.RazorConverter</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

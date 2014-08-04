@@ -1,0 +1,10 @@
+﻿namespace Olympic.RazorConverter
+{
+    using System.ComponentModel;
+
+    public interface IOrderMetadata
+    {
+        [DefaultValue(int.MaxValue)]
+        int Order { get; }
+    }
+}

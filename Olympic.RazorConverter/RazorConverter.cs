@@ -1,16 +1,13 @@
 ﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Web.Mvc;
-using Olympic.RazorConverter.Web.Models;
-using Olympic.RazorConverter;
+using System.IO;
 using Olympic.RazorConverter.Razor.DOM;
 
-namespace Olympic.RazorConverter.Web.Controllers
+namespace Olympic.RazorConverter
 {
-    public class ConverterController : Controller
+    public class RazorConverter
     {
-
-        public ConverterController()
+        public RazorConverter()
         {
             var catalog = new AssemblyCatalog(typeof(IWebFormsParser).Assembly);
             var container = new CompositionContainer(catalog);
@@ -38,25 +35,13 @@ namespace Olympic.RazorConverter.Web.Controllers
             set;
         }
 
-        // GET: Converter
-        public ActionResult Index()
+        public string ConvertAspx(string aspxFileName)
         {
-            return View(new ConverterModel());
-        }
+            var document = Parser.Parse(File.ReadAllText(aspxFileName));
 
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Index(ConverterModel model)
-        {
-            var document = Parser.Parse(model.Input);
             var razorDom = Converter.Convert(document);
-            var razorPage = Renderer.Render(razorDom);
 
-            model.Output = razorPage;
-
-
-            return View(model);
-
+            return Renderer.Render(razorDom);
         }
     }
 }
