@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using EnvDTE;
@@ -63,12 +64,12 @@ namespace OlympicSoftware.RazorConverterExtension
 
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
-            OleMenuCommandService mcs = GetService(typeof (IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null != mcs)
             {
                 // Create the command for the menu item.
                 CommandID menuCommandID = new CommandID(GuidList.guidRazorConverterExtensionCmdSet,
-                    (int) PkgCmdIDList.cmdidConvertAspxToRazor);
+                    (int)PkgCmdIDList.cmdidConvertAspxToRazor);
                 var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
                 menuItem.BeforeQueryStatus += QueryStatus;
 
@@ -97,24 +98,28 @@ namespace OlympicSoftware.RazorConverterExtension
         /// </summary>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            var projectItem = GetSelectedProjectItem();
 
-<<<<<<< HEAD
+            RazorConverter razorConverter = new RazorConverter();
+            var razor = razorConverter.ConvertAspx(projectItem.FileNames[0]);
+
+            var querySave2 = GetGlobalService(typeof(SVsQueryEditQuerySave)) as IVsQueryEditQuerySave2;
+            uint verdict;
+            uint moreInfo;
+            querySave2.QueryEditFiles((uint)tagVSQueryEditFlags.QEF_SilentMode, 1, new[] { projectItem.FileNames[0] }, null,
+                null, out verdict, out moreInfo);
+
+
             var window = projectItem.Open();
             window.Activate();
 
-            TextDocument o = (TextDocument) projectItem.Document.Object("TextDocument");
+            TextDocument o = (TextDocument)projectItem.Document.Object("TextDocument");
             TextSelection textSelection = o.Selection;
             textSelection.SelectAll();
             textSelection.Delete();
             textSelection.Text = razor;
 
 
-=======
-
-            var projectItem = GetSelectedProjectItem();
-            Debug.WriteLine(projectItem.Name);
-            Debug.WriteLine(projectItem.ContainingProject);
->>>>>>> parent of 327ccc3... well crap
         }
 
 
@@ -139,7 +144,7 @@ namespace OlympicSoftware.RazorConverterExtension
                                                  typeof(IVsHierarchy)) as IVsHierarchy;
 
 
-            
+
             if (selectedHierarchy != null)
             {
                 ErrorHandler.ThrowOnFailure(selectedHierarchy.GetProperty(
@@ -151,6 +156,7 @@ namespace OlympicSoftware.RazorConverterExtension
             var selectedProject = selectedObject as ProjectItem;
             return selectedProject;
         }
+
 
     }
 }
