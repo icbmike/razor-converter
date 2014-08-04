@@ -73,9 +73,9 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RazorConverterExtension.csproj">
+    <ProjectReference Include="..\Olympic.RazorConverterExtension.csproj">
       <Project>{B112E019-CFFC-4F7F-BC61-B08515261098}</Project>
-      <Name>RazorConverterExtension</Name>
+      <Name>Olympic.RazorConverterExtension</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
