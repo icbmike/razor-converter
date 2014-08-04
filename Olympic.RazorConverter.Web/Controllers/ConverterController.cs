@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Mike.RazorConverter.Web.Models;
+using Olympic.RazorConverter.Web.Models;
 using Telerik.RazorConverter;
 using Telerik.RazorConverter.Razor.DOM;
-using Telerik.RazorConverter.WebForms.Parsing;
 
-namespace Mike.RazorConverter.Web.Controllers
+namespace Olympic.RazorConverter.Web.Controllers
 {
     public class ConverterController : Controller
     {

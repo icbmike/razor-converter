@@ -1,4 +1,4 @@
-﻿namespace Mike.RazorConverter.Web.Models
+﻿namespace Olympic.RazorConverter.Web.Models
 {
     public class ConverterModel
     {
