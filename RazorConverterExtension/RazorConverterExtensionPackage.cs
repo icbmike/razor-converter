@@ -120,7 +120,6 @@ namespace OlympicSoftware.RazorConverterExtension
             textSelection.Delete();
             textSelection.Text = razor;
 
-
         }
 
 
