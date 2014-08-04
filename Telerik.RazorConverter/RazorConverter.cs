@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
-using Telerik.RazorConverter;
 using Telerik.RazorConverter.Razor.DOM;
 
-namespace OlympicSoftware.RazorConverterExtension
+namespace Telerik.RazorConverter
 {
     public class RazorConverter
     {

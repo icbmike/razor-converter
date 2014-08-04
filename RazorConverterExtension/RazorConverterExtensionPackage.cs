@@ -10,6 +10,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Telerik.RazorConverter;
 
 namespace OlympicSoftware.RazorConverterExtension
 {
@@ -100,7 +101,7 @@ namespace OlympicSoftware.RazorConverterExtension
         {
             var projectItem = GetSelectedProjectItem();
 
-            RazorConverter razorConverter = new RazorConverter();
+            var razorConverter = new RazorConverter();
             var razor = razorConverter.ConvertAspx(projectItem.FileNames[0]);
 
             var querySave2 = GetGlobalService(typeof(SVsQueryEditQuerySave)) as IVsQueryEditQuerySave2;
