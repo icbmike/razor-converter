@@ -5,29 +5,27 @@
 <html>
     <head>
         <title>Web Razor Converter</title>
-        
+
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        
+        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         
-        
+        <script src="/Scripts/jQuery-text-select.js"></script>
+
         <style type="text/css">
             body { padding: 10px; }
 
             textarea, input { margin-top: 10px; }
 
 
-            .output {
-                margin-top: 10px;
-                border: 1px black inset;
-                font-family: monospace;
-                padding: 10px;
-            }
+            .output { margin-top: 10px; }
         </style>
     </head>
     <body>
@@ -36,20 +34,23 @@
             <div class="form-group">
                 @using (Html.BeginForm("Index", "Converter", FormMethod.Post))
                 {
-                    @Html.TextAreaFor(model => model.Input, new {@class = "form-control"})
-
-
+                    @Html.TextAreaFor(model => model.Input, new {@class = "form-control", @placeholder = "Enter some aspx here"})
                     <input type="submit" value="Convert!" class="btn btn-primary" />
                 }
-                
-                <div class="output">
-                    @Model.Output
-                </div>
 
+                <pre class="output">
+                        @Model.Output
+                    </pre>
+                <button class="btn btn-primary select-all-button">Select All</button>
             </div>
         </div>
+        
+        
+        <script type="text/javascript">
+            $('.select-all-button').on('click', function() {
+                $('.output').selectText();
+            });
+        </script>
+
     </body>
-
-
-
 </html>

@@ -97,6 +97,7 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\Converter\Index.cshtml" />
+    <Content Include="Scripts\jQuery-text-select.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
